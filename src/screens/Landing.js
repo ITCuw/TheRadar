@@ -1,25 +1,31 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { Button } from '../components';
+import { Button } from '../Components';
 
 class Landing extends Component {
   constructor(){
     super()
   }
 
+  onSignUpButtonPress(){
+    const {navigate} = this.props.navigation;
+    navigate('SignUp');
+  }
+
   render(){
     return(
-      <View style={styles.containerStyles}>
-      <Text style={styles.title}>TheRadar</Text>
+      <View style={styles.containerStyle}>
+      <Text style={styles.titleStyle}>TheRadar</Text>
+      <Text style={styles.subtitleStyle}>By Students - 4 People</Text>
         <Button
           title="Log In"
-          buttonStyle={styles.button}
+          buttonStyle={styles.buttonStyle}
           onPress={this.logInButtonPress}
         />
         <Button
           title="Sign Up"
-          buttonStyle={styles.button}
-          onPress={this.signUpButtonPress}
+          buttonStyle={styles.buttonStyle}
+          onPress={() => this.onSignUpButtonPress()}
         />
       </View>
     );
@@ -27,35 +33,29 @@ class Landing extends Component {
 }
 
 var styles = StyleSheet.create({
-  containerStyles:{
+  containerStyle:{
     display: 'flex',
     flex: 1,
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
   },
-  button:{
+  buttonStyle:{
    backgroundColor: '#F36F6F',
    width: 200,
    height: 50,
    marginTop: 10,
   },
-  title: {
+  titleStyle: {
     marginTop: 20,
-    marginBottom: 200,
     marginLeft: 20,
     fontSize: 35,
   },
-  nameInput: {
-    padding: 5,
-    height: 40,
-    borderWidth: 2,
-    borderColor: 'black',
-    margin: 20,
-  },
-  buttonText: {
-    marginLeft: 20,
-    fontSize: 20,
-  },
+  subtitleStyle: {
+    fontSize: 25,
+    marginBottom: 175,
+    color: 'rgb(150, 150, 150)',
+  }
 });
+
 export default Landing;
