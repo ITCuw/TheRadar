@@ -6,24 +6,29 @@ class SignUp extends Component {
   constructor(props){
     super(props);
     this.state = {
-      userEmail: ''
+      userEmail: '',
+      userPassword: '',
     }
   }
 
   onUserEmailChanged = userEmail => {
     this.setState({ userEmail });
   };
+  onUserPasswordChanged = userPassword => {
+    this.setState({ userPassword });
+  };
 
   onButtonPress(){
     const {navigate} = this.props.navigation;
     console.log(this.state.userEmail)
+    console.log(this.state.userPassword)
     navigate('Home');
   }
 
   render(){
     return(
       <View style={styles.containerStyle}>
-        <Text style={styles.inputStyle}>Sign Up</Text>
+        <Text style={styles.inputStyle}>Welcome Back</Text>
         <TextInput
           label="Email"
           placeholder="Email"
@@ -34,8 +39,18 @@ class SignUp extends Component {
           underlineColorAndroid="transparent"
           onChangeText={this.onUserEmailChanged}
         />
+        <TextInput
+          label="Password"
+          placeholder="Password"
+          style={styles.inputStyle}
+          value={this.state.userPassword}
+          duration={100}
+          autoCorrect={false}
+          underlineColorAndroid="transparent"
+          onChangeText={this.onUserPasswordChanged}
+        />
         <Button
-          title="Sign Up"
+          title="Sign In"
           buttonStyle={styles.buttonStyle}
           onPress={() => this.onButtonPress()}
         />

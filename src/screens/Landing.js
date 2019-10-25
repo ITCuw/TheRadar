@@ -12,6 +12,11 @@ class Landing extends Component {
     navigate('SignUp');
   }
 
+  onSignInButtonPress(){
+    const {navigate} = this.props.navigation;
+    navigate('SignIn');
+  }
+
   render(){
     return(
       <View style={styles.containerStyle}>
@@ -20,7 +25,7 @@ class Landing extends Component {
         <Button
           title="Log In"
           buttonStyle={styles.buttonStyle}
-          onPress={this.logInButtonPress}
+          onPress={() => this.onSignInButtonPress()}
         />
         <Button
           title="Sign Up"
