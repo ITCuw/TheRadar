@@ -3,6 +3,9 @@ import { View, Text, StyleSheet } from 'react-native';
 import { Button } from '../Components';
 
 class Landing extends Component {
+  static navigationOptions = {
+    header: null
+  };
   constructor(){
     super()
   }

@@ -1,14 +1,32 @@
-import {createAppContainer} from 'react-navigation';
+import {createAppContainer, } from 'react-navigation';
 import {createStackNavigator} from 'react-navigation-stack';
-import { Landing, SignUp, SignIn, Home } from './screens'
+import { createBottomTabNavigator } from 'react-navigation-tabs';
+import { Landing, SignUp, SignIn, Home, Profile } from './screens';
 
-const MainNavigator = createStackNavigator({
+const TabNav = createBottomTabNavigator(
+  {
+  Home: { screen: Home },
+  Profile: { screen: Profile }
+  },
+  { headerMode: 'none' },
+);
+
+const StackNav = createStackNavigator(
+  {
   Landing: {screen: Landing},
   SignUp: {screen: SignUp},
   SignIn: {screen: SignIn},
-  Home: {screen: Home},
-})
+  Home: {screen: TabNav}
+  },
+  { headerMode: 'none' },
+);
 
-const App = createAppContainer(MainNavigator)
+const RootNavigator = createStackNavigator({
+  StackNav: {screen: StackNav},
+  TabNav: {screen: TabNav},
+});
+
+
+const App = createAppContainer(RootNavigator);
 
 export default App;

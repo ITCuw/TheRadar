@@ -3,6 +3,10 @@ import { View, Text,TextInput, StyleSheet } from 'react-native';
 import { Button } from '../Components';
 
 class SignUp extends Component {
+  static navigationOptions = {
+    header: null
+  };
+  
   constructor(props){
     super(props);
     this.state = {

@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
 import { View, Text,TextInput, StyleSheet } from 'react-native';
 
-class Home extends Component {
+class Profile extends Component {
   static navigationOptions = {
     header: null
   };
 
   render(){
     return(
-      <Text>Home!</Text>
+      <Text>Profile!</Text>
     );
   }
 }
 
-export default Home;
+export default Profile;

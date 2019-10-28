@@ -9,6 +9,10 @@ class SignUp extends Component {
       userEmail: ''
     }
   }
+  
+  static navigationOptions = {
+    header: null
+  };
 
   onUserEmailChanged = userEmail => {
     this.setState({ userEmail });
