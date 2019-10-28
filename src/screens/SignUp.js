@@ -9,7 +9,7 @@ class SignUp extends Component {
       userEmail: ''
     }
   }
-  
+
   onUserEmailChanged = userEmail => {
     this.setState({ userEmail });
   };
@@ -17,7 +17,7 @@ class SignUp extends Component {
   onButtonPress(){
     const {navigate} = this.props.navigation;
     console.log(this.state.userEmail)
-    navigate('Home');
+    navigate('Channels');
   }
 
   render(){

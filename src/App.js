@@ -1,7 +1,7 @@
 import {createAppContainer, } from 'react-navigation';
 import {createStackNavigator} from 'react-navigation-stack';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
-import { Landing, SignUp, SignIn, Home, Profile, Activity, ProfileSettings } from './screens';
+import { Landing, SignUp, SignIn, Channels, Profile, Activity, ProfileSettings } from './screens';
 
 const ProfileNav = createStackNavigator(
   {
@@ -13,7 +13,7 @@ const ProfileNav = createStackNavigator(
 
 const TabNav = createBottomTabNavigator(
   {
-  Home: { screen: Home },
+  Channels: { screen: Channels },
   Activity: { screen: Activity },
   Profile: { screen: ProfileNav }
   },
@@ -25,7 +25,7 @@ const StackNav = createStackNavigator(
   Landing: {screen: Landing},
   SignUp: {screen: SignUp},
   SignIn: {screen: SignIn},
-  Home: {screen: TabNav}
+  Channels: {screen: TabNav}
   },
   { headerMode: 'none' },
 );

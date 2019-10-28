@@ -1,3 +1,11 @@
+import Channel from './Channel';
+
 export {
-  Button, 
+  Button,
    } from 'react-native-elements';
+
+export {
+
+  Channel
+
+}
