@@ -10,10 +10,6 @@ class SignUp extends Component {
     }
   }
   
-  static navigationOptions = {
-    header: null
-  };
-
   onUserEmailChanged = userEmail => {
     this.setState({ userEmail });
   };

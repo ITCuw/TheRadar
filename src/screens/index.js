@@ -3,7 +3,8 @@ import SignUp from './SignUp';
 import SignIn from './SignIn';
 import Home from './Home';
 import Profile from './Profile';
-
+import Activity from './Activity';
+import ProfileSettings from './ProfileSettings';
 
 export {
 
@@ -12,5 +13,7 @@ export {
   Home,
   SignIn,
   Profile,
+  Activity,
+  ProfileSettings,
 
 }

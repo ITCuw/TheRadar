@@ -1,12 +1,21 @@
 import {createAppContainer, } from 'react-navigation';
 import {createStackNavigator} from 'react-navigation-stack';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
-import { Landing, SignUp, SignIn, Home, Profile } from './screens';
+import { Landing, SignUp, SignIn, Home, Profile, Activity, ProfileSettings } from './screens';
+
+const ProfileNav = createStackNavigator(
+  {
+  Profile: {screen: Profile},
+  ProfileSettings: {screen: ProfileSettings},
+  },
+  { headerMode: 'none' },
+);
 
 const TabNav = createBottomTabNavigator(
   {
   Home: { screen: Home },
-  Profile: { screen: Profile }
+  Activity: { screen: Activity },
+  Profile: { screen: ProfileNav }
   },
   { headerMode: 'none' },
 );
@@ -24,6 +33,7 @@ const StackNav = createStackNavigator(
 const RootNavigator = createStackNavigator({
   StackNav: {screen: StackNav},
   TabNav: {screen: TabNav},
+  ProfileSettings: {screen: ProfileSettings},
 });
 
 
