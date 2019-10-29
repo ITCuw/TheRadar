@@ -17,7 +17,7 @@ class SignUp extends Component {
   onButtonPress(){
     const {navigate} = this.props.navigation;
     console.log(this.state.userEmail)
-    navigate('Channels');
+    navigate('ProfileCreate_One');
   }
 
   render(){

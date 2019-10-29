@@ -4,10 +4,10 @@ import { Channel } from '../Components';
 
   const channelData = [
     {
-      name: "Athletics",
+      name: "Athletes",
     },
     {
-      name: "Public",
+      name: "Everyone",
     },
   ]
 

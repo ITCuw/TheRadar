@@ -5,6 +5,9 @@ import Channels from './Channels';
 import Profile from './Profile';
 import Activity from './Activity';
 import ProfileSettings from './ProfileSettings';
+import ProfileCreate_One from './ProfileCreate_One';
+import ProfileCreate_Two from './ProfileCreate_Two';
+
 
 export {
 
@@ -15,5 +18,7 @@ export {
   Profile,
   Activity,
   ProfileSettings,
+  ProfileCreate_One,
+  ProfileCreate_Two,
 
 }
