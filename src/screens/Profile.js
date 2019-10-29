@@ -25,6 +25,8 @@ class Profile extends Component {
         </TouchableOpacity>
         </View>
         <Text>Profile!</Text>
+        <Text>Zach!</Text>
+
       </View>
     );
   }
