@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text,TextInput, StyleSheet } from 'react-native';
-import { Button } from '../Components';
+import { Button } from '../components';
 
 class ProfileCreate_One extends Component {
 

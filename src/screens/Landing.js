@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { Button } from '../Components';
+import { Button } from '../components';
 
 class Landing extends Component {
   static navigationOptions = {

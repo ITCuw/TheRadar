@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text,TextInput, StyleSheet } from 'react-native';
-import { Channel } from '../Components';
+import { Channel } from '../components';
 
   const channelData = [
     {
