@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text,TextInput, StyleSheet } from 'react-native';
+import { View, Text,TextInput, StyleSheet, AsyncStorage } from 'react-native';
 import propTypes from 'prop-types';
 import axios from 'axios';
 //react native elements imports
@@ -77,6 +77,14 @@ class SignUp extends Component {
         this.setState({
           loading: false,
         });
+        const storeToken = async () => {
+              try {
+                 await AsyncStorage.setItem("FBIdToken", `Bearer ${res.data.token}`);
+              } catch (error) {
+                console.log("Something went wrong", error);
+              };
+            };
+        storeToken();
         navigate('Channels');
       })
       .catch(err => {
@@ -104,6 +112,8 @@ class SignUp extends Component {
           onChangeText={this.onFirstNameChange}
           errorMessage= {errors.firstName}
           errorStyle={{ color: 'red' }}
+          autoCapitalize = 'none'
+          autoCorrect = 'false'
         />
         <Input
           placeholder='Smith'
@@ -114,6 +124,8 @@ class SignUp extends Component {
           onChangeText={this.onLastNameChange}
           errorMessage= {errors.lastName}
           errorStyle={{ color: 'red' }}
+          autoCapitalize = 'none'
+          autoCorrect = 'false'
         />
         <Input
           placeholder='20'
@@ -124,6 +136,8 @@ class SignUp extends Component {
           onChangeText={this.onAgeChange}
           errorMessage= {errors.age}
           errorStyle={{ color: 'red' }}
+          autoCapitalize = 'none'
+          autoCorrect = 'false'
         />
         <Input
           placeholder='email@uw.edu'
@@ -134,6 +148,8 @@ class SignUp extends Component {
           onChangeText={this.onEmailChange}
           errorMessage= {errors.email}
           errorStyle={{ color: 'red' }}
+          autoCapitalize = 'none'
+          autoCorrect = 'false'
         />
         <Input
           placeholder='*********'
@@ -144,6 +160,8 @@ class SignUp extends Component {
           onChangeText={this.onPasswordChange}
           errorMessage= {errors.password}
           errorStyle={{ color: 'red' }}
+          autoCapitalize = 'none'
+          autoCorrect = 'false'
         />
         <Input
         placeholder='*********'
@@ -154,6 +172,8 @@ class SignUp extends Component {
         onChangeText={this.onConfirmPasswordChange}
         errorMessage= {errors.confirmPassword}
         errorStyle={{ color: 'red' }}
+        autoCapitalize = 'none'
+        autoCorrect = 'false'
         />
         <Input
         placeholder='fishing'
@@ -164,6 +184,8 @@ class SignUp extends Component {
         onChangeText={this.onInterestChange}
         errorMessage= {errors.interest}
         errorStyle={{ color: 'red' }}
+        autoCapitalize = 'none'
+        autoCorrect = 'false'
         />
         <Button
           title="Sign Up"

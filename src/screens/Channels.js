@@ -12,10 +12,6 @@ import { Channel } from '../components';
   ]
 
 class Channels extends Component {
-  static navigationOptions = {
-    header: null
-  };
-
   render(){
     const lastIndex = channelData.length - 1;
     return(

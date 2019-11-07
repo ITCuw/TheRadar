@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text,TextInput, StyleSheet } from 'react-native';
+import { View, Text,TextInput, StyleSheet, AsyncStorage } from 'react-native';
 import { Input, Button } from 'react-native-elements';
 import propTypes from 'prop-types';
 import axios from 'axios';
@@ -14,8 +14,10 @@ class SignIn extends Component {
     this.state = {
       email: '',
       password: '',
-      loading: false,
-      errors: {}
+      screenLoading: false,
+      errors: {},
+      buttonDisabled: false,
+      buttonLoading: false
     }
   }
 
@@ -25,12 +27,17 @@ class SignIn extends Component {
   onPasswordChange = password => {
     this.setState({ password });
   };
-
+  onTextPress(){
+    const {navigate} = this.props.navigation;
+    navigate('SignUp');
+  }
   onSignInPress(){
     const {navigate} = this.props.navigation;
     this.setState({
-      loading: true,
-      errors: {}
+      screenLoading: true,
+      errors: {},
+      buttonDisabled: true,
+      buttonLoading: true
     });
     console.log(this.state.errors)
     const userData = {
@@ -40,21 +47,33 @@ class SignIn extends Component {
     axios.post('https://us-central1-theradar-6242d.cloudfunctions.net/api/logIn', userData)
       .then(res => {
         this.setState({
-          loading: false,
+          screenLoading: false,
+          buttonLoading: false,
+          buttonDisabled: false
         });
+
+      const storeToken = async () => {
+            try {
+               await AsyncStorage.setItem("FBIdToken", `Bearer ${res.data.token}`);
+            } catch (error) {
+              console.log("Something went wrong", error);
+            };
+          };
+        storeToken();
         navigate('Channels');
       })
       .catch(err => {
         this.setState({
           errors: err.response.data,
-          loading: false
+          screenLoading: false,
+          buttonLoading: false,
+          buttonDisabled: false
         });
-        console.log(this.state.errors)
       });
   };
 
   render(){
-    const { errors, loading } = this.state;
+    const { errors, screenLoading } = this.state;
     return(
         <View style={styles.body}>
         <View style={styles.containerStyle}>
@@ -70,6 +89,8 @@ class SignIn extends Component {
             onChangeText={this.onEmailChange}
             errorMessage= {errors.email}
             errorStyle={{ color: 'red' }}
+            autoCapitalize = 'none'
+            autoCorrect = 'false'
           />
           <Input
             placeholder='*********'
@@ -80,6 +101,8 @@ class SignIn extends Component {
             onChangeText={this.onPasswordChange}
             errorMessage= {errors.password}
             errorStyle={{ color: 'red' }}
+            autoCapitalize = 'none'
+            autoCorrect = 'false'
           />
           { errors.general && (
             <Text style={styles.customError}>
@@ -92,7 +115,12 @@ class SignIn extends Component {
             type="outline"
             buttonStyle={styles.buttonStyle}
             onPress={() => this.onSignInPress()}
+            disabled= {this.state.buttonDisabled}
+            loading={this.state.buttonLoading}
           />
+          <Text>
+          <Text>Don't have an account? </Text><Text style={styles.textLink} onPress={() => this.onTextPress()}>sign up</Text>
+          </Text>
         </View>
         </View>
     );
@@ -126,6 +154,10 @@ var styles = StyleSheet.create({
   customError:{
     color:'red',
     fontSize: 15
+  },
+  textLink:{
+    color: 'blue',
+    textDecorationLine: 'underline'
   }
 })
 
