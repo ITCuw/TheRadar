@@ -2,7 +2,7 @@ import Channel from './Channel';
 
 export {
   Button,
-   } from './node_modules/react-native-elements';
+   } from 'react-native-elements';
 
 export {
 
