@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
-import { View, Text,TextInput, StyleSheet, AsyncStorage } from 'react-native';
-import propTypes from 'prop-types';
-import axios from 'axios';
+import { View, Text,TextInput, StyleSheet } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { signUpUser, logOutUser } from '../redux/actions/userActions';
 //react native elements imports
 import { Input, Button } from 'react-native-elements';
 
@@ -22,7 +24,21 @@ class SignUp extends Component {
       loading: false,
       errors: {}
     }
-  }
+  };
+
+  componentWillReceiveProps(nextProps){
+    if(nextProps.ui.errors){
+      this.setState({
+        errors: nextProps.ui.errors.data,
+        loading: nextProps.ui.loading
+      });
+    }
+    if(nextProps.ui.loading){
+      this.setState({
+        loading: nextProps.ui.loading
+      });
+    }
+  };
   // onChange = (event) => {
   //   this.setState({
   //     [event.target.id]: event.target.inputValue
@@ -71,33 +87,12 @@ class SignUp extends Component {
       firstName: this.state.firstName,
       age: this.state.age,
     };
-    axios.post('https://us-central1-theradar-6242d.cloudfunctions.net/api/signUp', newUserData)
-      .then(res => {
-        console.log(res.data);
-        this.setState({
-          loading: false,
-        });
-        const storeToken = async () => {
-              try {
-                 await AsyncStorage.setItem("FBIdToken", `Bearer ${res.data.token}`);
-              } catch (error) {
-                console.log("Something went wrong", error);
-              };
-            };
-        storeToken();
-        navigate('Channels');
-      })
-      .catch(err => {
-        console.log(err)
-        this.setState({
-          errors: err.response.data,
-          loading: false
-        });
-      });
+    this.props.signUpUser(newUserData, navigate);
   };
 
   render(){
-    const { errors, loading } = this.state;
+    const { ui: {loading} } = this.props;
+    const { errors } = this.state;
     return(
       <View style={styles.body}>
       <View style={styles.containerStyle}>
@@ -113,7 +108,7 @@ class SignUp extends Component {
           errorMessage= {errors.firstName}
           errorStyle={{ color: 'red' }}
           autoCapitalize = 'none'
-          autoCorrect = 'false'
+          autoCorrect = {false}
         />
         <Input
           placeholder='Smith'
@@ -125,7 +120,7 @@ class SignUp extends Component {
           errorMessage= {errors.lastName}
           errorStyle={{ color: 'red' }}
           autoCapitalize = 'none'
-          autoCorrect = 'false'
+          autoCorrect = {false}
         />
         <Input
           placeholder='20'
@@ -137,7 +132,7 @@ class SignUp extends Component {
           errorMessage= {errors.age}
           errorStyle={{ color: 'red' }}
           autoCapitalize = 'none'
-          autoCorrect = 'false'
+          autoCorrect = {false}
         />
         <Input
           placeholder='email@uw.edu'
@@ -149,7 +144,7 @@ class SignUp extends Component {
           errorMessage= {errors.email}
           errorStyle={{ color: 'red' }}
           autoCapitalize = 'none'
-          autoCorrect = 'false'
+          autoCorrect = {false}
         />
         <Input
           placeholder='*********'
@@ -161,7 +156,7 @@ class SignUp extends Component {
           errorMessage= {errors.password}
           errorStyle={{ color: 'red' }}
           autoCapitalize = 'none'
-          autoCorrect = 'false'
+          autoCorrect = {false}
         />
         <Input
         placeholder='*********'
@@ -173,7 +168,7 @@ class SignUp extends Component {
         errorMessage= {errors.confirmPassword}
         errorStyle={{ color: 'red' }}
         autoCapitalize = 'none'
-        autoCorrect = 'false'
+        autoCorrect = {false}
         />
         <Input
         placeholder='fishing'
@@ -185,7 +180,7 @@ class SignUp extends Component {
         errorMessage= {errors.interest}
         errorStyle={{ color: 'red' }}
         autoCapitalize = 'none'
-        autoCorrect = 'false'
+        autoCorrect = {false}
         />
         <Button
           title="Sign Up"
@@ -226,7 +221,18 @@ var styles = StyleSheet.create({
 })
 
 SignUp.propTypes = {
-
+  signUpUser: PropTypes.func.isRequired,
+  user: PropTypes.object.isRequired,
+  ui: PropTypes.object.isRequired,
 }
 
-export default SignUp;
+const mapStateToProps = (state) => ({
+  user: state.user,
+  ui: state.ui
+});
+
+const mapActionsToProps = {
+  signUpUser
+};
+
+export default connect(mapStateToProps, mapActionsToProps)(SignUp);

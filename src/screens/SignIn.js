@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
-import { View, Text,TextInput, StyleSheet, AsyncStorage } from 'react-native';
+import { View, Text,TextInput, StyleSheet } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import { Input, Button } from 'react-native-elements';
-import propTypes from 'prop-types';
-import axios from 'axios';
+import PropTypes from 'prop-types';
+// REDUX STUFF
+import { connect } from 'react-redux';
+import { signInUser } from '../redux/actions/userActions';
 
 class SignIn extends Component {
   static navigationOptions = {
-    header: null
+    title: 'Log In',
   };
 
   constructor(props){
@@ -14,12 +17,24 @@ class SignIn extends Component {
     this.state = {
       email: '',
       password: '',
-      screenLoading: false,
+      loading: false,
       errors: {},
-      buttonDisabled: false,
-      buttonLoading: false
     }
-  }
+  };
+
+  componentWillReceiveProps(nextProps){
+    if(nextProps.ui.errors){
+      this.setState({
+        errors: nextProps.ui.errors.data,
+        loading: nextProps.ui.loading
+      });
+    }
+    if(nextProps.ui.loading){
+      this.setState({
+        loading: nextProps.ui.loading
+      });
+    }
+  };
 
   onEmailChange = email => {
     this.setState({ email });
@@ -34,46 +49,20 @@ class SignIn extends Component {
   onSignInPress(){
     const {navigate} = this.props.navigation;
     this.setState({
-      screenLoading: true,
+      loading: true,
       errors: {},
-      buttonDisabled: true,
-      buttonLoading: true
     });
-    console.log(this.state.errors)
     const userData = {
       email: this.state.email,
-      password: this.state.password,
+      password: this.state.password
     };
-    axios.post('https://us-central1-theradar-6242d.cloudfunctions.net/api/logIn', userData)
-      .then(res => {
-        this.setState({
-          screenLoading: false,
-          buttonLoading: false,
-          buttonDisabled: false
-        });
-
-      const storeToken = async () => {
-            try {
-               await AsyncStorage.setItem("FBIdToken", `Bearer ${res.data.token}`);
-            } catch (error) {
-              console.log("Something went wrong", error);
-            };
-          };
-        storeToken();
-        navigate('Channels');
-      })
-      .catch(err => {
-        this.setState({
-          errors: err.response.data,
-          screenLoading: false,
-          buttonLoading: false,
-          buttonDisabled: false
-        });
-      });
+    this.props.signInUser(userData, navigate);
   };
 
   render(){
-    const { errors, screenLoading } = this.state;
+    const { ui: {loading} } = this.props;
+    const { errors } = this.state;
+
     return(
         <View style={styles.body}>
         <View style={styles.containerStyle}>
@@ -90,7 +79,8 @@ class SignIn extends Component {
             errorMessage= {errors.email}
             errorStyle={{ color: 'red' }}
             autoCapitalize = 'none'
-            autoCorrect = 'false'
+            autoCorrect = {false}
+            selectionColor= 'rgb(254, 100, 100)'
           />
           <Input
             placeholder='*********'
@@ -99,10 +89,12 @@ class SignIn extends Component {
             inputValue={this.state.password}
             underlineColorAndroid="transparent"
             onChangeText={this.onPasswordChange}
+            isFocused= {false}
             errorMessage= {errors.password}
             errorStyle={{ color: 'red' }}
             autoCapitalize = 'none'
-            autoCorrect = 'false'
+            autoCorrect = {false}
+            selectionColor= 'rgb(254, 100, 100)'
           />
           { errors.general && (
             <Text style={styles.customError}>
@@ -115,8 +107,8 @@ class SignIn extends Component {
             type="outline"
             buttonStyle={styles.buttonStyle}
             onPress={() => this.onSignInPress()}
-            disabled= {this.state.buttonDisabled}
-            loading={this.state.buttonLoading}
+            disabled= {this.state.loading}
+            loading={this.state.loading}
           />
           <Text>
           <Text>Don't have an account? </Text><Text style={styles.textLink} onPress={() => this.onTextPress()}>sign up</Text>
@@ -162,6 +154,18 @@ var styles = StyleSheet.create({
 })
 
 SignIn.propTypes = {
-
+  signInUser: PropTypes.func.isRequired,
+  user: PropTypes.object.isRequired,
+  ui: PropTypes.object.isRequired,
 }
-export default SignIn;
+
+const mapStateToProps = (state) => ({
+  user: state.user,
+  ui: state.ui
+});
+
+const mapActionsToProps = {
+  signInUser
+};
+
+export default connect(mapStateToProps, mapActionsToProps)(SignIn);

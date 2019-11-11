@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { View, Text,TextInput, StyleSheet,AsyncStorage } from 'react-native';
+import { View, Text,TextInput, StyleSheet } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import { Button } from 'react-native-elements';
 
 class ProfileSettings extends Component {

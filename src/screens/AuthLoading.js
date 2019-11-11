@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
 import {
   ActivityIndicator,
-  AsyncStorage,
   StatusBar,
   StyleSheet,
   View,
 } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 
 class AuthLoading extends Component {
   componentDidMount() {
@@ -27,4 +27,7 @@ class AuthLoading extends Component {
   };
 };
 
+const mapStateToProps = (state) => ({
+  authenticated: state.user.authenticated
+})
 export default AuthLoading;

@@ -3,6 +3,8 @@ import {createStackNavigator} from 'react-navigation-stack';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 import { AsyncStorage } from 'react-native';
 import jwtDecode from 'jwt-decode';
+import React, { Component } from 'react';
+
 import {
   Landing,
   SignUp,
@@ -14,6 +16,12 @@ import {
   ProfileCreate_One,
   ProfileCreate_Two,
   AuthLoading } from './screens';
+
+//redux
+import { Provider } from 'react-redux';
+import store from './redux/store.js';
+import { SET_AUTHENTICATED } from './redux/types';
+import { logOutUser, getUserData } from './redux/actions/userActions';
 
 const ProfileNav = createStackNavigator(
   {
@@ -49,6 +57,14 @@ const RootNavigator = createSwitchNavigator(
   }
 );
 
-const App = createAppContainer(RootNavigator);
+let Navigation = createAppContainer(RootNavigator);
 
-export default App;
+export default class Stack extends Component {
+  render() {
+    return (
+      <Provider store={store}>
+        <Navigation/>
+      </Provider>
+    );
+  };
+};
