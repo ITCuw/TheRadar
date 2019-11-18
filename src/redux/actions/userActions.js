@@ -7,9 +7,10 @@ export const signInUser = (userData, navigate) => (dispatch) => {
   axios.post('https://us-central1-theradar-6242d.cloudfunctions.net/api/logIn', userData)
     .then(res => {
     const fBIdToken = `Bearer ${res.data.token}`;
+    const gsToken = res.data.gsToken;
     const storeToken = async () => {
           try {
-             await AsyncStorage.setItem("FBIdToken", fBIdToken);
+             await AsyncStorage.multiSet([["FBIdToken", fBIdToken], ["gsToken", gsToken]]);
           } catch (error) {
             console.log("Something went wrong", error);
           };
@@ -33,10 +34,11 @@ export const signUpUser = (newUserData, navigate) => (dispatch) => {
   axios.post('https://us-central1-theradar-6242d.cloudfunctions.net/api/signUp', newUserData)
     .then(res => {
     const fBIdToken = `Bearer ${res.data.token}`;
-    console.log('get stream token: ' + res.data.gsToken);
+    const gsToken = res.data.gsToken;
+
     const storeToken = async () => {
           try {
-             await AsyncStorage.setItem("FBIdToken", fBIdToken);
+             await AsyncStorage.multiSet([["FBIdToken", fBIdToken], ["gsToken", gsToken]]);
           } catch (error) {
             console.log("Something went wrong", error);
           };

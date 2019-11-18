@@ -6,8 +6,8 @@ import Profile from './Profile';
 import Activity from './Activity';
 import ProfileSettings from './ProfileSettings';
 import AuthLoading from './AuthLoading';
-
-
+import Feed from './Feed';
+import NewPost from './NewPost';
 
 export {
 
@@ -18,5 +18,7 @@ export {
   Profile,
   Activity,
   ProfileSettings,
-  AuthLoading
+  AuthLoading,
+  Feed,
+  NewPost,
 }
