@@ -4,24 +4,32 @@ import { createBottomTabNavigator } from 'react-navigation-tabs';
 import { AsyncStorage } from 'react-native';
 import jwtDecode from 'jwt-decode';
 import React, { Component } from 'react';
+import * as stream from 'getstream';
+import { StreamApp } from 'react-native-activity-feed';
+
 
 import {
   Landing,
   SignUp,
   SignIn,
   Channels,
+  Feed,
   Profile,
   Activity,
   ProfileSettings,
   ProfileCreate_One,
   ProfileCreate_Two,
-  AuthLoading } from './screens';
+  AuthLoading,
+  NewPost } from './src/screens';
 
+import { TouchableOpacity, Image } from 'react-native';
+import {PostIcon} from './src/Img/icons/post.png';
 //redux
 import { Provider } from 'react-redux';
-import store from './redux/store.js';
-import { SET_AUTHENTICATED } from './redux/types';
-import { logOutUser, getUserData } from './redux/actions/userActions';
+import store from './src/redux/store.js';
+import { SET_AUTHENTICATED } from './src/redux/types';
+import { logOutUser, getUserData } from './src/redux/actions/userActions';
+import config from './config';
 
 const ProfileNav = createStackNavigator(
   {
@@ -30,13 +38,21 @@ const ProfileNav = createStackNavigator(
   }
 );
 
+const FeedStack = createStackNavigator(
+  {
+    Feed: { screen: Feed },
+    NewPost: { screen: NewPost },
+  }
+);
+
 const AppStack = createBottomTabNavigator(
   {
-  Channels: { screen: Channels },
+  Feed: { screen: FeedStack },
   Activity: { screen: Activity },
   Profile: { screen: ProfileNav }
   }
 );
+
 
 const AuthStack = createStackNavigator(
   {
@@ -59,12 +75,18 @@ const RootNavigator = createSwitchNavigator(
 
 let Navigation = createAppContainer(RootNavigator);
 
-export default class Stack extends Component {
-  render() {
+export default class App extends Component{
+    render(){
     return (
+      <StreamApp
+        apiKey={config.stream.app.key}
+        appId={config.stream.app.id}
+        token={config.stream.app.token}
+        >
       <Provider store={store}>
-        <Navigation/>
+          <Navigation/>
       </Provider>
+      </StreamApp>
     );
   };
 };

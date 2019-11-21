@@ -16,6 +16,8 @@
     "jwt-decode": "^2.2.0",
     "react": "16.9.0",
     "react-native": "0.61.2",
+    "react-native-activity-feed": "^0.8.17",
+    "react-native-dotenv": "^0.2.0",
     "react-native-elements": "^1.2.7",
     "react-native-gesture-handler": "^1.4.1",
     "react-native-paper": "^3.0.0",
